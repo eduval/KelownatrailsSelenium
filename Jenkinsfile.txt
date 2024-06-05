@@ -50,7 +50,7 @@ pipeline{
             }
 	    steps{
              //sh 'firebase deploy -P devops-proj-staging --token "$FIREBASE_DEPLOY_TOKEN"'
-            echo 'Staging'
+            echo 'Staging...'
 	    }
         } 
         stage('Production Environment'){
