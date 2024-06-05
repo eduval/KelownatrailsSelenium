@@ -7,18 +7,47 @@ pipeline{
  stages{
         stage('Building'){
             steps{
-           // sh 'npm install -g firebase-tools'
-                echo 'Biulding...'
+		echo 'Biulding...'
+		sh 'firebase --version'
             }
         } 
         stage('Testing Environment'){
             steps{
             sh 'firebase deploy -P devops-proj-testing --token "$FIREBASE_DEPLOY_TOKEN"'
-            input message: 'After testing. Do you want to continue with Staging Environment? (Click "Proceed" to continue)'
-            }
+            script {
+                    try {
+                        // Execute your setup commands
+                        sh 'npm install selenium-webdriver'
+
+                        // Run the test and capture the output
+                        def output = sh(script: 'node test/test1.js', returnStdout: true).trim()
+                        
+                        // Debugging: Print the output to verify
+                        echo "Test Output: ${output}"
+                        
+                        // Write the test result to a file
+                        if (output.contains('Testing Success')) {
+                            writeFile file: env.TEST_RESULT_FILE, text: 'true'
+                        } else {
+                            writeFile file: env.TEST_RESULT_FILE, text: 'false'
+                        }
+                    } catch (Exception e) {
+                        echo "Tests failed: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        writeFile file: env.TEST_RESULT_FILE, text: 'false'
+                    }
+                }
+	    }
         } 
         stage('Staging Environment'){
-            steps{
+             when {
+                expression {
+                    // Read the test result from the file
+                    def testResult = readFile(env.TEST_RESULT_FILE).trim()
+                    return testResult == 'true'
+                }
+            }
+	    steps{
              sh 'firebase deploy -P devops-proj-staging --token "$FIREBASE_DEPLOY_TOKEN"'
             }
         } 
