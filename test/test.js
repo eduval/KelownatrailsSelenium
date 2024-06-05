@@ -16,7 +16,7 @@ async function test_case() {
         await driver.get("https://devops-proj-testing.web.app/");
 
         // Grab an element from the page
-        await driver.findElement(By.id("generate")).click();
+        await driver.findElement(By.id("deleteMemberBtn")).click();
 
         // Check the result
         let resultText = await driver.findElement(By.id('result')).getText();
