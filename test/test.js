@@ -13,13 +13,13 @@ async function test_case() {
 
     try {
         // Send driver to website
-        await driver.get("https://devops-proj-testing.web.app/");
+        await driver.get("https://devops-proj-staging.web.app/");
 
         // Grab an element from the page
-        await driver.findElement(By.id('deleteMemberBtn')).click();
+        await driver.findElement(By.id('generate')).click();
 
         // Check the result
-        let resultText = await driver.findElement(By.id('lastname')).getText();
+        let resultText = await driver.findElement(By.id('result')).getText();
         if (resultText !== "CLICK GENERATE") {
             console.log('Testing Success');
         } else {
