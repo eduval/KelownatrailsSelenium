@@ -1,7 +1,8 @@
 pipeline{
     agent any
     environment {
-    FIREBASE_DEPLOY_TOKEN = credentials('firebase-token')
+     TEST_RESULT_FILE = 'test_result.txt'
+     FIREBASE_DEPLOY_TOKEN = credentials('firebase-token')
     }
 
  stages{
