@@ -14,7 +14,8 @@ pipeline{
         } 
         stage('Testing Environment'){
             steps{
-            sh 'firebase deploy -P devops-proj-testing --token "$FIREBASE_DEPLOY_TOKEN"'
+            echo 'Testing...'
+	    sh 'firebase deploy -P devops-proj-testing --token "$FIREBASE_DEPLOY_TOKEN"'
             script {
                     try {
                         // Execute your setup commands
