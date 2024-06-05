@@ -9,12 +9,12 @@ pipeline{
         stage('Building'){
             steps{
 		echo 'Biulding...'
-		sh 'firebase --version'
+		//sh 'firebase --version'
             }
         } 
         stage('Testing Environment'){
             steps{
-            sh 'firebase deploy -P devops-proj-testing --token "$FIREBASE_DEPLOY_TOKEN"'
+            //sh 'firebase deploy -P devops-proj-testing --token "$FIREBASE_DEPLOY_TOKEN"'
             script {
                     try {
                         // Execute your setup commands
@@ -49,12 +49,14 @@ pipeline{
                 }
             }
 	    steps{
-             sh 'firebase deploy -P devops-proj-staging --token "$FIREBASE_DEPLOY_TOKEN"'
-            }
+             //sh 'firebase deploy -P devops-proj-staging --token "$FIREBASE_DEPLOY_TOKEN"'
+            echo 'Staging'
+	    }
         } 
         stage('Production Environment'){
             steps{
-            sh 'firebase deploy -P devops-proj-production-bcfd9 --token "$FIREBASE_DEPLOY_TOKEN"'
+          echo 'Production'  
+	  //sh 'firebase deploy -P devops-proj-production-bcfd9 --token "$FIREBASE_DEPLOY_TOKEN"'
             }
         } 
     }
